@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blog</title>
+</head>
+<body>
+
+
+
+    <div class="page-header">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="top-menu">Выйти<span class="glyphicon glyphicon-log-out"></span></a>
+            <a href="{% url 'post_add' %}" class="top-menu">Добавить пост<span class="glyphicon glyphicon-log-out"></span></a>
+        {% else %}
+            <a href="{% url 'login' %}" class="top-menu">Войти<span class="glyphicon glyphicon-log-in"></span></a>
+        {% endif %}
+        <h1><a href="/">Главная страница</a></h1>
+    </div>
+    
+    
+    {% for post in posts %}
+    <div>
+        <p>Дата публикации {{ post.published_date }}</p>
+        <h1><a href="/posts/{{post.id}}/">{{post.title}}</a></h1>
+        <p>{{ post.text|linebreaks}}</p>
+        <p>Автор {{ post.author}}</p>
+        <p>Комментарии: {{ post.comments.count }}</p>
+    </div>
+    {% endfor %}
+
+
+
+</body>
+</html>
