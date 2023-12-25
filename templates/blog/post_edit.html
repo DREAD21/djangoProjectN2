@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>blog</title>
-</head>
-<body>
-
+{% extends "navbar.html" %}
+{% block content %}
     {% load widget_tweaks %}
-   {% block content %}
-       <h1>
-        {% if forms.instance.id %}
-       Редактировать: {{ form.instance.title }}
-       {% else %}
-       Новая запись
-       {% endif %}
-       </h1>
 
        <form method="POST" class="post-form">
        {% csrf_token %}
-        <div class="form-group">
+        <div class="form-group mb-2" >
             {{ form.title.label_tag }}
             {{ form.title|add_class:"form-control" }}
         </div>
@@ -26,13 +12,8 @@
            {{ form.text.label_tag }}
            {{ form.text|add_class:"form-control"}}
        </div>
-       <div class="checkbox">
-           <label>{{ form.is_published}}Запись опубликована?</label>
-       </div>
-       <button type="submit" class="save btn btn-default">Сохранить</button>
+       <button type="submit" class="save btn btn-primary">Сохранить</button>
        </form>
     {% endblock %}
 
 
-</body>
-</html>

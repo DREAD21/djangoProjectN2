@@ -1,37 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>blog</title>
-</head>
-<body>
-
-   {% block content %}
-       {% if post.published_date %}
-       <div class="date">
-            {{ post.published_date }}
-       </div>
-           {% else %}
-           <a class="btn btn-default" href="{% url 'post_publish' id=post.id %}">Опубликовать</a>
-        {% endif %}
-       {% if request.user == post.author %}
-       <a class="btn btn-default" href="{% url 'post_edit' id=post.id %}">Редактировать пост<span class="glyphicon glyphicon-pencil"></span></a>
-       {% endif %}
-       <h1>{{ post.title }}</h1>
-       <p>{{ post.text|linebreaksbr}}</p>
-       <hr>
-       <a class="btn btn-default" href="{% url 'add_comment' id=post.id %}">Добавить комментарий<span class="glyphicon glyphicon-pencil"></span></a>
-       {% for comment in post.comments.all %}
-            <div class="comment">
-                <div class="date">{{ comment.created_date }}</div>
-                <strong>{{ comment.author }}</strong>
-                <p>{{ comment.text|linebreaks }}</p>
+{% extends "navbar.html" %}
+{% block content %}
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h1 class="fw-bolder mb-1">
+                                <h1>{{ post.title }}</h1>
+                                {% if request.user == post.author %}
+                                    <h1><a class="btn btn-primary" href="{% url 'post_edit' id=post.id %}">Редактировать пост<span class="glyphicon glyphicon-pencil"></span></a></h1>
+                                {% endif %}
+                            </h1>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">
+                                 {% if post.published_date %}
+                                    <div class="date">
+                                    {{ post.published_date }}
+                                    </div>
+                                {% else %}
+                                     <a class="btn btn-default" href="{% url 'post_publish' id=post.id %}">Опубликовать</a>
+                                 {% endif %}
+                            </div>
+                        </header>
+                        <!-- Preview image figure-->
+                        <figure class="mb-4"><img class="img-fluid rounded" src="https://avatars.dzeninfra.ru/get-zen_doc/3985629/pub_62593cf0131fd5175fdc3312_625942d784aebe77d9c3032b/scale_1200" alt="..." /></figure>
+                        <!-- Post content-->
+                        <section class="mb-5">
+                             <p>{{ post.text|linebreaksbr}}</p>
+                        </section>
+                    </article>
+                    <!-- Comments section-->
+                    <section class="mb-5">
+                                <!-- Comment form-->
+                                <a class="btn btn-primary" href="{% url 'add_comment' id=post.id %}">Добавить комментарий<span class="glyphicon glyphicon-pencil"></span></a>
+                                <!-- Comment with nested comments-->
+                                {% for comment in post.comments.all %}
+                                <div class="d-flex mb-4">
+                                    <!-- Parent comment-->
+                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                    <div class="ms-3">
+                                        <div class="fw-bold">{{ comment.author }}</div>
+                                        {{ comment.text|linebreaks }}
+                                </div>
+                                {% empty %}
+                                {% endfor %}
+                    </section>
+                </div>
             </div>
-       {% empty %}
-            <p>Комментарии отсутствуют</p>
-       {% endfor %}
+        </div>
     {% endblock %}
-
-
-</body>
-</html>

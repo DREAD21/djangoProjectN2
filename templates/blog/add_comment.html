@@ -1,27 +1,18 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>blog</title>
-</head>
-<body>
+{% extends "navbar.html" %}
 
-    {% load widget_tweaks %}
    {% block content %}
+          {% load widget_tweaks %}
 
        <form method="POST" class="post-form">
        {% csrf_token %}
         <div class="form-group">
-            {{ form.title.label_tag }}
-            {{ form.title|add_class:"form-control" }}
+            {{ form.author.label_tag }}
+            {{ form.author|add_class:"form-control" }}
         </div>
        <div class="form-group">
-           {{ form.text.label_tag }}
-           {{ form.text|add_class:"form-control"}}
+           {{ form.comment.label_tag }}
+           {{ form.comment|add_class:"form-control"}}
        </div>
-       <button type="submit" class="save btn btn-default">Сохранить</button>
+       <button type="submit" class="save btn btn-primary">Сохранить</button>
        </form>
     {% endblock %}
-
-
-</body>
-</html>

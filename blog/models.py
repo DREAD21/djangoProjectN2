@@ -8,7 +8,6 @@ from blog.managers import PostPublishedManager, PostManager
 # Create your models here.
 
 class Post(models.Model):
-
     published = PostPublishedManager()
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -35,11 +34,12 @@ class Post(models.Model):
     def is_published(self):
         return True if self.published_date else False
 
+
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
-    text = models.TextField(verbose_name="Комментарий")
-    created_date = models.DateTimeField(default=timezone.now())
+    comment = models.TextField(verbose_name="Комментарий")
+    created_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
 
     def approve(self):
@@ -47,7 +47,7 @@ class Comment(models.Model):
         self.save()
 
     def __str__(self):
-        return self.text
+        return self.comment
 
     class Meta:
         verbose_name = 'Комментарий'
